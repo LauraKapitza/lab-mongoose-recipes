@@ -21,6 +21,40 @@ mongoose
   })
   .then(() => {
     // Run your code here, after you have insured that the connection was made
+    const tarte = {
+      title: 'Chocolate Tarte',
+      level: 'Amateur Chef',
+      ingredients: [
+        '2 cups plain flour, plus more for dusting',
+        '3 tablespoons sugar',
+        '1/4 teaspoon salt',
+        '3/4 cup (1 1/2 sticks) unsalted butter, cold and cut into small chunks',
+        '1 large egg, separated',
+        '2 tablespoons ice water, plus more if needed',
+        '1 cup double cream',
+        '1/2 cup milk',
+        '10 ounces milk chocolate, chopped',
+        '2 tablespoons sugar',
+        '1/4 teaspoon salt',
+        '2 large eggs, at room temperature'
+      ],
+      cuisine: 'French',
+      dishType: 'dessert',
+      duration: 110,
+    }
+
+    Recipe.create(tarte)
+      .then(
+        function(newRecipe) {
+          console.log('The title of the new recipe is: ', newRecipe.title)
+        }
+      )
+      .catch(
+        function(err) {
+          console.log('An error occured: ', err)
+        }
+      );
+
   })
   .catch(error => {
     console.error('Error connecting to the database', error);
