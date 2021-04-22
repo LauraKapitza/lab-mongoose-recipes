@@ -20,8 +20,9 @@ mongoose
     return self.connection.dropDatabase();
   })
   .then(() => {
-    // Run your code here, after you have insured that the connection was made
-    const tarte = {
+    //iteration 2
+
+    /* const tarte = {
       title: 'Chocolate Tarte',
       level: 'Amateur Chef',
       ingredients: [
@@ -53,7 +54,21 @@ mongoose
         function(err) {
           console.log('An error occured: ', err)
         }
-      );
+      ); */
+
+      //iteration 3
+
+      Recipe.insertMany(data)
+        .then(
+          function(recipes) {
+            //add code when data is loaded (title per recipe)
+          }
+        )
+        .catch(
+          function(err) {
+            console.log('An error occured: ', err)
+          }
+        )
 
   })
   .catch(error => {
