@@ -22,7 +22,7 @@ mongoose
   .then(() => {
     //iteration 2
 
-    /* const tarte = {
+    const tarte = {
       title: 'Chocolate Tarte',
       level: 'Amateur Chef',
       ingredients: [
@@ -54,21 +54,32 @@ mongoose
         function(err) {
           console.log('An error occured: ', err)
         }
-      ); */
+      ); 
 
-      //iteration 3
 
-      Recipe.insertMany(data)
-        .then(
-          function(recipes) {
-            //add code when data is loaded (title per recipe)
-          }
-        )
-        .catch(
-          function(err) {
-            console.log('An error occured: ', err)
-          }
-        )
+    //iteration 3
+
+    Recipe.insertMany(data)
+      .then(
+        function(recipes) {
+          recipes.forEach(recipe => console.log('The title of this recipe is ', recipe.title))
+        }
+      )
+      .catch(
+        function(err) {
+          console.log('An error occured: ', err)
+        }
+      );
+
+    // iteration 4
+
+    const rigatoni = {title: 'Rigatoni alla Genovese'};
+    Recipe.find(rigatoni)
+        .then(function(recipe) {
+          recipe.duration = 100;
+          console.log('We successfully changed the duration time', recipe.duration)
+        })
+        .catch(err => console.log('An error occured: ', err))
 
   })
   .catch(error => {
