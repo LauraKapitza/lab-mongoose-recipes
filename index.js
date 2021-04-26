@@ -21,7 +21,7 @@ mongoose
   })
   .then(() => {
     //iteration 2
-
+  
     const tarte = {
       title: 'Chocolate Tarte',
       level: 'Amateur Chef',
@@ -44,7 +44,7 @@ mongoose
       duration: 110,
     }
 
-    Recipe.create(tarte)
+    const promiseCreate = Recipe.create(tarte)
       .then(
         function(newRecipe) {
           console.log('The title of the new recipe is: ', newRecipe.title)
@@ -52,34 +52,46 @@ mongoose
       )
       .catch(
         function(err) {
-          console.log('An error occured: ', err)
+          console.log('An error occured when adding the new recipe to the database: ', err)
         }
       ); 
 
 
     //iteration 3
-
-    Recipe.insertMany(data)
+    
+    const promiseInsertMany = Recipe.insertMany(data)
       .then(
         function(recipes) {
-          recipes.forEach(recipe => console.log('The title of this recipe is ', recipe.title))
+          recipes.forEach(recipe => console.log(`--> recipe: ${recipe.title}`))
         }
       )
       .catch(
         function(err) {
-          console.log('An error occured: ', err)
+          console.log('An error occured when adding recipes to the database: ', err)
         }
       );
 
     // iteration 4
 
-    const rigatoni = {title: 'Rigatoni alla Genovese'};
-    Recipe.find(rigatoni)
-        .then(function(recipe) {
-          recipe.duration = 100;
-          console.log('We successfully changed the duration time', recipe.duration)
-        })
-        .catch(err => console.log('An error occured: ', err))
+    const queryToUpdate = {'title': 'Rigatoni alla Genovese'};
+    const newUpdate = {'duration': 100}
+    const promiseUpdate = Recipe.updateOne(queryToUpdate, newUpdate)
+        .then(() => console.log('We successfully changed the duration time: ', newUpdate.duration))
+        .catch(err => console.log('An error occured when updating an query: ', err));
+
+    
+    // iteration 5
+    const deleteQuery = {title: 'Carrot Cake'}
+    const promiseDelete = Recipe.deleteOne(deleteQuery)
+        .then(() => console.log('Recipe was successfully deleted from the database.'))
+        .catch(err => console.log('An error has occured while deleting an query: ', err));
+    
+    Promise.all([promiseCreate, promiseInsertMany,promiseUpdate, promiseDelete])
+      .then(() => {
+        console.log('The connection with the database is closed.')
+        mongoose.connection.close()
+      })
+      .catch(err => console.log('An error occured when closing the database: ', err))
 
   })
   .catch(error => {
